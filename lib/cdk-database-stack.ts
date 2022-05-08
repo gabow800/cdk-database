@@ -1,5 +1,7 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import {NetworkStack} from "./network";
+import {PostgresStack} from "./postgres";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class CdkDatabaseStack extends Stack {
@@ -12,5 +14,11 @@ export class CdkDatabaseStack extends Stack {
     // const queue = new sqs.Queue(this, 'CdkDatabaseQueue', {
     //   visibilityTimeout: cdk.Duration.seconds(300)
     // });
+
+    const networkStack = new NetworkStack(this, 'NetworkStack', {});
+    const postgresStack = new PostgresStack(this, 'PostgresStack', {
+      vpc: networkStack.vpc,
+    })
+
   }
 }
